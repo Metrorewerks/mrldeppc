@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 
-#define BINARY_PAYLOAD_SIZE 0x300000
+#define BINARY_PAYLOAD_SIZE 0x4500000
 
 namespace loader
 {

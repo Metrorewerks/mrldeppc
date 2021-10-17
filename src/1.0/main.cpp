@@ -1,5 +1,5 @@
 #include <loader/loader.hpp>
-#include <memory.hpp>
+#include <memory/memory.hpp>
 
 int __cdecl main(int argc, char* argv[])
 {

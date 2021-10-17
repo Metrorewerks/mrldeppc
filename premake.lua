@@ -16,7 +16,6 @@ workspace "mrldeppc"
 
 	includedirs {
 		"./src/",
-		"./deps/memory/",
 	}
 	
 	buildoptions {
@@ -78,10 +77,14 @@ workspace "mrldeppc"
 
 		files {
 			"./src/1.0/**",
+			"./src/loader/**",
+			"./src/memory/**",
 		}
 
 		includedirs {
 			"./src/1.0/",
+			"./src/loader/",
+			"./src/memory/",
 		}
 		
 		--Required for manual mapping
@@ -110,10 +113,14 @@ workspace "mrldeppc"
 
 		files {
 			"./src/2.7/**",
+			"./src/loader/**",
+			"./src/memory/**",
 		}
 
 		includedirs {
 			"./src/2.7/",
+			"./src/loader/",
+			"./src/memory/",
 		}
 		
 		--Required for manual mapping
