@@ -1,11 +1,5 @@
 #pragma once
 
-#include <windows.h>
-
-#include <fstream>
-#include <vector>
-#include <algorithm>
-
 #define BINARY_PAYLOAD_SIZE 0x4500000
 
 namespace loader

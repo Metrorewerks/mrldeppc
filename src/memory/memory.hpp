@@ -1,12 +1,15 @@
 #pragma once
 
-#include <functional>
-
 namespace memory
 {
 	template <typename T> static auto set(std::uint32_t place, T value) -> void
 	{
 		*reinterpret_cast<T*>(place) = value;
+	}
+
+	template <typename T> static auto get(std::uint32_t place) -> T
+	{
+		return *reinterpret_cast<T*>(place);
 	}
 
 	inline auto replace(std::uint32_t address, std::uint32_t function) -> void
