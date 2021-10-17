@@ -1,9 +1,9 @@
 workspace "mrldeppc"
-	location ".\\build\\"
+	location "./build/"
 
-	targetdir "%{wks.location}\\bin\\%{cfg.buildcfg}\\"
-	objdir "%{wks.location}\\obj\\%{cfg.buildcfg}\\%{prj.name}\\"
-	buildlog "%{wks.location}\\obj\\%{cfg.buildcfg}\\%{prj.name}.log"
+	targetdir "%{wks.location}/bin/%{cfg.buildcfg}/"
+	objdir "%{wks.location}/obj/%{cfg.buildcfg}/%{prj.name}/"
+	buildlog "%{wks.location}/obj/%{cfg.buildcfg}/%{prj.name}.log"
 
 	largeaddressaware "on"
 	editandcontinue "off"
@@ -15,8 +15,8 @@ workspace "mrldeppc"
 	warnings "extra"
 
 	includedirs {
-		".\\src\\",
-		".\\deps\\memory\\",
+		"./src/",
+		"./deps/memory/",
 	}
 	
 	buildoptions {
@@ -62,22 +62,58 @@ workspace "mrldeppc"
 		runtime "debug"
 		symbols "on"
 
-	project "mrldeppc"
+	project "1.0"
 		targetname "mrldeppc"
 		language "c++"
 		kind "consoleapp"
 		warnings "off"
 
 		pchheader "stdafx.hpp"
-		pchsource "src/stdafx.cpp"
+		pchsource "src/1.0/stdafx.cpp"
 		forceincludes "stdafx.hpp"
 
+		postbuildcommands {
+			"copy /y \"$(TargetPath)\" \"../ref/1.0/\""
+		}
+
 		files {
-			".\\src\\**",
+			"./src/1.0/**",
 		}
 
 		includedirs {
-			".\\src\\",
+			"./src/1.0/",
+		}
+		
+		--Required for manual mapping
+		linkoptions{
+			"/NXCOMPAT:NO",
+			"/IGNORE:4254",
+			"/DYNAMICBASE:NO",
+			"/SAFESEH:NO",
+			"/LARGEADDRESSAWARE",
+			"/LAST:.main",
+		}
+
+	project "2.7"
+		targetname "mrldeppc"
+		language "c++"
+		kind "consoleapp"
+		warnings "off"
+
+		pchheader "stdafx.hpp"
+		pchsource "src/2.7/stdafx.cpp"
+		forceincludes "stdafx.hpp"
+
+		postbuildcommands {
+			"copy /y \"$(TargetPath)\" \"../ref/2.7/\""
+		}
+
+		files {
+			"./src/2.7/**",
+		}
+
+		includedirs {
+			"./src/2.7/",
 		}
 		
 		--Required for manual mapping
