@@ -144,31 +144,6 @@ auto loader::load(const char* bin_name) -> void
 	loader::load_sections(mod, source);
 	loader::load_imports(mod, source);
 
-	if (source_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].Size)
-	{
-		if (!module_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress)
-		{
-			__debugbreak();
-		}
-
-		const auto target_tls = reinterpret_cast<PIMAGE_TLS_DIRECTORY>(reinterpret_cast<uint32_t>(mod) + module_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress);
-		const auto source_tls = reinterpret_cast<PIMAGE_TLS_DIRECTORY>(reinterpret_cast<uint32_t>(mod) + source_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress);
-
-		const auto source_tls_size = source_tls->EndAddressOfRawData - source_tls->StartAddressOfRawData;
-		const auto target_tls_size = target_tls->EndAddressOfRawData - target_tls->StartAddressOfRawData;
-
-		const auto target_tls_index = *reinterpret_cast<DWORD*>(target_tls->AddressOfIndex);
-		const auto source_tls_index = *reinterpret_cast<DWORD*>(source_tls->AddressOfIndex);
-		*reinterpret_cast<DWORD*>(target_tls->AddressOfIndex) += source_tls_index;
-
-		DWORD old_protect;
-		VirtualProtect(PVOID(target_tls->StartAddressOfRawData), source_tls_size, PAGE_READWRITE, &old_protect);
-
-		const auto tls_base = *reinterpret_cast<LPVOID*>(__readfsdword(0x2C) + (sizeof(std::uintptr_t) * source_tls_index) + (sizeof(std::uintptr_t) * target_tls_index));
-		std::memmove(tls_base, PVOID(source_tls->StartAddressOfRawData), source_tls_size);
-		std::memmove(PVOID(target_tls->StartAddressOfRawData), PVOID(source_tls->StartAddressOfRawData), source_tls_size);
-	}
-
 	DWORD old_protect;
 	VirtualProtect(module_nt_headers, 0x1000, PAGE_EXECUTE_READWRITE, &old_protect);
 

@@ -1,3 +1,13 @@
+newoption {
+	trigger = "v10",
+	description = "Allows premake to make a project for 1.0",
+}
+
+newoption {
+	trigger = "v27",
+	description = "Allows premake to make a project for 2.7",
+}
+
 workspace "mrldeppc"
 	location "./build/"
 
@@ -60,7 +70,8 @@ workspace "mrldeppc"
 		optimize "debug"
 		runtime "debug"
 		symbols "on"
-
+		
+if _OPTIONS["v10"] then
 	project "1.0"
 		targetname "mrldeppc"
 		language "c++"
@@ -96,7 +107,9 @@ workspace "mrldeppc"
 			"/LARGEADDRESSAWARE",
 			"/LAST:.main",
 		}
+end
 
+if _OPTIONS["v27"] then
 	project "2.7"
 		targetname "mrldeppc"
 		language "c++"
@@ -132,3 +145,4 @@ workspace "mrldeppc"
 			"/LARGEADDRESSAWARE",
 			"/LAST:.main",
 		}
+end
